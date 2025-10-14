@@ -174,6 +174,38 @@ document.addEventListener('readystatechange', function () {
             })
         })
 
+          // ===============================================
+        // =========== CÓDIGO AÑADIDO PARA CERRAR LA VENTANA MODAL ===========
+        // ===============================================
+        const modal = document.getElementById("noPremiumModal");
+        if(modal) {
+            const closeBtn = modal.getElementsByClassName("close-button")[0];
+            const discordBtn = document.getElementById("discordLinkBtn");
+
+            // Función para cerrar con el botón 'X'
+            if(closeBtn) {
+                closeBtn.onclick = function() {
+                    modal.style.display = "none";
+                }
+            }
+            
+            // Función para el botón de Discord
+            if(discordBtn) {
+                discordBtn.onclick = function() {
+                    // ¡¡MUY IMPORTANTE!! Reemplaza con tu enlace de Discord
+                    shell.openExternal('https://discord.gg/B3wd7gEdjh');
+                }
+            }
+
+            // Función para cerrar haciendo clic afuera
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        }
+        // =========== FIN DEL CÓDIGO AÑADIDO ===========
+
     } else if(document.readyState === 'complete'){
 
         //266.01
@@ -212,3 +244,42 @@ document.addEventListener('keydown', function (e) {
         window.toggleDevTools()
     }
 })
+
+// ===============================================
+// =========== CÓDIGO DEL CARRUSEL DE FONDOS ===========
+// ===============================================
+document.addEventListener('DOMContentLoaded', function() {
+
+    // ¡IMPORTANTE! Edita esta lista con los nombres EXACTOS de tus imágenes.
+    const backgroundImages = [
+        '0.jpg',
+        '1.jpg',
+        '2.jpg',
+        '3.jpg',
+        '4.jpg'
+        // Puedes añadir tantas como quieras, separadas por comas.
+    ];
+
+    let currentIndex = 0;
+
+    // Función para cambiar el fondo de pantalla.
+    function changeBackgroundImage() {
+        // Selecciona la siguiente imagen de la lista, y vuelve al principio si llega al final.
+        currentIndex = (currentIndex + 1) % backgroundImages.length;
+
+        // Construye la nueva ruta de la imagen.
+        const newImageUrl = `url('assets/images/backgrounds/${backgroundImages[currentIndex]}')`;
+
+        // Aplica la nueva imagen al fondo del body.
+        document.body.style.backgroundImage = newImageUrl;
+    }
+
+    // Inicia el carrusel, cambiando la imagen cada 30 segundos (30000 milisegundos).
+    setInterval(changeBackgroundImage, 30000);
+
+    // Opcional: Establece una imagen aleatoria al iniciar el launcher.
+    currentIndex = Math.floor(Math.random() * backgroundImages.length);
+    document.body.style.backgroundImage = `url('assets/images/backgrounds/${backgroundImages[currentIndex]}')`;
+
+});
+// =========== FIN DEL CÓDIGO DEL CARRUSEL ===========

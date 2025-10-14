@@ -624,6 +624,9 @@ const settingsCurrentMojangAccounts = document.getElementById('settingsCurrentMo
 /**
  * Add auth account elements for each one stored in the authentication database.
  */
+/**
+ * Add auth account elements for each one stored in the authentication database.
+ */
 function populateAuthAccounts(){
     const authAccounts = ConfigManager.getAuthAccounts()
     const authKeys = Object.keys(authAccounts)
@@ -638,6 +641,7 @@ function populateAuthAccounts(){
     authKeys.forEach((val) => {
         const acc = authAccounts[val]
 
+        // ¡¡MODIFICACIÓN!! Se ha cambiado el panel del UUID para añadir el botón.
         const accHtml = `<div class="settingsAuthAccount" uuid="${acc.uuid}">
             <div class="settingsAuthAccountLeft">
                 <img class="settingsAuthAccountImage" alt="${acc.displayName}" src="https://mc-heads.net/body/${acc.uuid}/60">
@@ -650,7 +654,15 @@ function populateAuthAccounts(){
                     </div>
                     <div class="settingsAuthAccountDetailPane">
                         <div class="settingsAuthAccountDetailTitle">${Lang.queryJS('settings.authAccountPopulate.uuid')}</div>
-                        <div class="settingsAuthAccountDetailValue">${acc.uuid}</div>
+
+                        <div class="uuid-container">
+                            <span class="accountUUID" data-uuid="${acc.uuid}">••••••••••••••••••••••••••••••••</span>
+                            <button class="uuid-toggle-button" title="Mostrar/Ocultar UUID">
+                                <svg class="icon-eye" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                                <svg class="icon-eye-slash" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-4 .7l2.17 2.17c.57-.22 1.18-.36 1.83-.36zm-4.39 4.39l2.27 2.27C9.37 14.1 9 14.5 9 15c0 1.66 1.34 3 3 3 .5 0 .9-.12 1.28-.35l2.27 2.27C14.13 20.39 12.1 21 10 21c-5.08 0-9.27-3.11-11-7.5 1.09-2.64 2.83-4.78 4.98-6.32l2.62 2.62C6.22 10.23 5.8 11.08 5.8 12c0 .69.13 1.35.36 1.95zm-1.42-9.32L2.39 4.27 4.27 2.39l17.32 17.32 1.88-1.88-2.61-2.61C20.94 13.98 22 12.7 22 12c-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-4 .7L4.17 2.07z"/></svg>
+                            </button>
+                        </div>
+
                     </div>
                 </div>
                 <div class="settingsAuthAccountActions">
@@ -674,6 +686,42 @@ function populateAuthAccounts(){
     settingsCurrentMojangAccounts.innerHTML = mojangAuthAccountStr
 }
 
+
+/**
+ * Bind functionality to the UUID toggle buttons.
+ */
+function bindUUIDToggleButtons(){
+    const toggleButtons = document.querySelectorAll('.uuid-toggle-button');
+
+    toggleButtons.forEach(button => {
+        // Preparamos el estado inicial de los iconos.
+        const eyeIcon = button.querySelector('.icon-eye');
+        const eyeSlashIcon = button.querySelector('.icon-eye-slash');
+        eyeIcon.style.display = 'inline';
+        eyeSlashIcon.style.display = 'none';
+
+        // Añadimos el evento de clic.
+        button.addEventListener('click', () => {
+            const container = button.closest('.uuid-container');
+            const uuidSpan = container.querySelector('.accountUUID');
+            const uuid = uuidSpan.getAttribute('data-uuid');
+            const isHidden = uuidSpan.textContent.includes('•');
+
+            if (isHidden) {
+                // Mostrar UUID
+                uuidSpan.textContent = uuid;
+                eyeIcon.style.display = 'none';
+                eyeSlashIcon.style.display = 'inline';
+            } else {
+                // Ocultar UUID
+                uuidSpan.textContent = '••••••••••••••••••••••••••••••••';
+                eyeIcon.style.display = 'inline';
+                eyeSlashIcon.style.display = 'none';
+            }
+        });
+    });
+}
+
 /**
  * Prepare the accounts tab for display.
  */
@@ -681,6 +729,7 @@ function prepareAccountsTab() {
     populateAuthAccounts()
     bindAuthAccountSelect()
     bindAuthAccountLogOut()
+    bindUUIDToggleButtons()
 }
 
 /**

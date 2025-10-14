@@ -48,3 +48,17 @@ loginOptionsCancelButton.onclick = (e) => {
         }
     })
 }
+// ===============================================
+// =========== CÓDIGO AÑADIDO PARA ABRIR LA VENTANA MODAL ===========
+// ===============================================
+const noPremiumBtn = document.getElementById('noPremiumBtn')
+const noPremiumModal = document.getElementById('noPremiumModal')
+
+// Solo si ambos elementos existen, añadimos la función.
+if (noPremiumBtn && noPremiumModal) {
+    noPremiumBtn.onclick = (e) => {
+        // Mostramos la ventana modal.
+        noPremiumModal.style.display = 'flex'
+    }
+}
+// =========== FIN DEL CÓDIGO AÑADIDO ===========

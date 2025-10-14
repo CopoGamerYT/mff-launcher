@@ -3013,7 +3013,9 @@ input:checked + .toggleSwitchSlider:before {
 
 /* User profile name text. */
 #user_text {
-    font-size: 12px;
+    font-size: 1.1em;
+    line-height: 1.4;
+    text-align: right;
     min-width: 135px;
     font-weight: 900;
     letter-spacing: 1px;
@@ -3203,7 +3205,7 @@ input:checked + .toggleSwitchSlider:before {
 /* Maintains maximum width on the status bar. */
 #server_status_wrapper {
     display: inline-flex;
-    width: 75px;
+    width: 120px;
 }
 
 /* Span which displays the player count of the selected server. */
@@ -3224,7 +3226,7 @@ input:checked + .toggleSwitchSlider:before {
 
 /* Icon which displays the status of the mojang services. */
 #mojang_status_icon {
-    font-size: 30px;
+    font-size: 8px;
     color: #848484;
     margin-left: 15px;
     font-family: 'sans-serif';
@@ -3930,26 +3932,31 @@ input:checked + .toggleSwitchSlider:before {
     justify-content: center;
 }
 
-/* Spinner container. */
+/* Spinner container */
 #loadSpinnerContainer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Apila verticalmente */
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* Espacio entre logo y spinner */
+  height: 100vh; /* Ocupa toda la pantalla */
 }
 
-/* Stationary image for the spinner. */
+/* Stationary image (logo) */
 #loadCenterImage {
-    position: absolute;
-    width: 277px;
-    height: auto;
+  width: 277px;
+  height: auto;
+  z-index: 100;
+  position: relative; /* Ya no absolute, para que respete el flujo */
 }
 
-/* Rotating image for the spinner. */
+/* Rotating image (spinner) */
 #loadSpinnerImage {
-    width: 280px;
-    height: auto;
-    z-index: 400;
+  width: 80px;
+  height: auto;
+  z-index: 220;
+  position: relative; /* También en el flujo normal */
 }
 
 /* Rotating animation for the spinner. */
@@ -3964,5 +3971,605 @@ input:checked + .toggleSwitchSlider:before {
 
 /* Class which is applied when the spinner image is spinning. */
 .rotating {
-    animation: rotating 10s linear infinite;
+    animation: rotating 2s linear infinite;
+}
+/* Estilos para la ventana Modal */
+.modal {
+    display: none; /* Oculta por defecto */
+    position: fixed; 
+    z-index: 1000; /* Asegura que esté por encima de todo */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.7); /* Fondo negro semi-transparente */
+    -webkit-backdrop-filter: blur(5px); /* Efecto blur para el fondo */
+    backdrop-filter: blur(5px);
+    justify-content: center; /* Centra verticalmente */
+    align-items: center;     /* Centra horizontalmente */
+}
+
+.modal-content {
+    background-color: #2e2e2e;
+    padding: 25px;
+    border: 1px solid #888;
+    width: 90%;
+    max-width: 450px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    color: #f1f1f1;
+    font-size: 1.1em;
+}
+
+/* El botón para cerrar (la X) */
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Estilo para el botón de Discord */
+.discord-button {
+    background-color: #5865F2; /* Color oficial de Discord */
+    border: none;
+    margin-top: 20px;
+    width: 80%; /* Ancho del botón */
+}
+
+.discord-button:hover {
+    background-color: #6a76f8;
+}
+
+/* ================================================= */
+/* == Estilos DEFINITIVOS para la Ventana Modal == */
+/* ================================================= */
+
+/* El fondo oscuro y borroso de la ventana */
+.modal {
+    display: none;
+    position: fixed; 
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* El contenedor principal de la ventana (el panel de vidrio) */
+.modal-content {
+    background-color: rgba(30, 30, 30, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    width: 90%;
+    max-width: 480px;
+    border-radius: 16px;
+    text-align: center;
+    position: relative;
+    color: #f1f1f1;
+    font-size: 1.1em;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Botón para cerrar (la 'X') - CORREGIDO */
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 15px;         /* Le damos más espacio desde arriba */
+    right: 15px;        /* Le damos más espacio desde la derecha */
+    font-size: 28px;
+    font-weight: bold;
+    transition: color 0.2s;
+    cursor: pointer;
+    padding: 5px;       /* Hacemos el área para hacer clic un poco más grande */
+    line-height: 1;     /* Evitamos que tenga altura extra */
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: white;
+    text-decoration: none;
+}
+
+/* El nuevo estilo para el botón de Discord - CORREGIDO */
+.discord-button {
+    background-color: #5865F2;
+    border: none;
+    margin-top: 25px;
+    width: 80%;
+    padding: 12px 0;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.2s;
+    /* Con esto forzamos el centrado horizontal del botón */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.discord-button:hover {
+    background-color: #6a76f8;
+}
+
+/* El arreglo definitivo para el logo de Discord - CORREGIDO */
+.discord-button svg path {
+    fill: #FFFFFF; /* Aplicamos el color blanco directamente a la forma del icono */
+}
+/* Estilo para el nombre de usuario de bienvenida */
+.colored-name {
+    font-size: 1.2em;
+    color: #55FFFF; /* Un color cian brillante. ¡Puedes cambiar el código hexadecimal por el que más te guste! */
+    font-weight: bold; /* Hacemos que el nombre resalte en negrita */
+}
+
+/* Contenedor para alinear el UUID y el botón */
+.uuid-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre el texto y el botón */
+}
+
+/* Estilo del texto del UUID */
+.accountUUID {
+    font-family: 'Consolas', 'Monaco', monospace; /* Fuente especial para que los puntos se vean uniformes */
+}
+
+/* Estilo del botón de mostrar/ocultar */
+.uuid-toggle-button {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+.uuid-toggle-button:hover {
+    opacity: 1.0;
+}
+
+/* Estilo de los iconos SVG dentro del botón */
+.uuid-toggle-button svg {
+    width: 18px;
+    height: 18px;
+    fill: #ffffff; /* Color blanco para el icono */
+}
+
+body {
+    /* Esta línea hace que el cambio de fondo sea suave y dure 1.5 segundos */
+    transition: background-image 1.5s ease-in-out;
+}
+
+/* ================================================================= */
+/* == CSS DEFINITIVO PARA EL NUEVO DISEÑO == */
+/* ================================================================= */
+
+/* -- Ocultamos la estructura original -- */
+#landingContainer > #upper > #left, #landingContainer > #upper > #content, #landingContainer > #upper > #right,
+#landingContainer > #lower > #left .bot_wrapper, #landingContainer > #lower > #center .bot_wrapper, #landingContainer > #lower > #right .bot_wrapper {
+    display: none !important;
+}
+.new-layout-container { position: absolute; transition: top 1s ease, bottom 1s ease; }
+
+/* -- Estilos por sección -- */
+/* Superior Izquierda */
+.top-left { top: 30px; left: 30px; display: flex; flex-direction: column; align-items: flex-start; }
+.top-left #image_seal_container { margin-top: 0; }
+.top-left #server_status_wrapper, .top-left #mojangStatusWrapper {
+    position: static; margin-top: 15px; padding: 8px 15px; background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 12px; backdrop-filter: blur(5px); min-width: 180px;
+}
+
+/* Superior Derecha */
+.top-right { top: 30px; right: 30px; }
+.top-right #mediaContent { margin-top: 15px; }
+.top-right .mediaContainer {
+    background-color: rgba(0, 0, 0, 0.4); border-radius: 12px; backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2); margin: 5px 0; width: 40px; height: 40px;
+    transition: background-color 0.2s;
+}
+.top-right .mediaContainer:hover { background-color: rgba(255, 255, 255, 0.1); }
+.top-right .mediaSVG { height: 18px; }
+.top-right .mediaDivider { display: none; }
+
+/* Inferior Izquierda */
+.bottom-left { bottom: 30px; left: 30px; text-align: left; }
+#version_select_label { color: #d0d0d0; font-size: 0.9em; margin-bottom: 5px; display: block; }
+#server_selection_icon {
+    width: 80px; height: 80px; border-radius: 15px; border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+}
+#server_selection_icon:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(255, 255, 255, 0.3); }
+
+/* Inferior Central (Botón Jugar y Configuración) */
+.bottom-center {
+    /* Propiedades de posicionamiento que ya tenías */
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: absolute; /* Aseguramos que se posicione correctamente */
+
+    /* ¡¡LÍNEAS AÑADIDAS PARA CENTRAR TODO!! */
+    display: flex;
+    flex-direction: column; /* Apila los elementos uno encima del otro */
+    align-items: center;   /* Centra horizontalmente todo el contenido */
+}
+
+#launch_wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#launch_button {
+    font-size: 2em;
+    padding: 10px 60px;
+    border-radius: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.3);
+    order: 2;
+}
+
+#launch_button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#settingsMediaContainer {
+    order: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 45px;
+    height: 45px;
+}
+
+#settingsMediaContainer:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#settingsSVG {
+    height: 25px;
+    stroke: #FFF;
+    transition: transform 0.3s ease;
+}
+
+#settingsMediaButton:hover #settingsSVG {
+    transform: rotate(45deg);
+}
+
+#selected_version_text {
+    color: #e0e0e0;
+    font-size: 0.9em;
+    margin-top: 15px;
+    display: block;
+}
+/* Inferior Derecha */
+.bottom-right { bottom: 30px; right: 30px; }
+.bottom-right #newsButton {
+    padding: 10px 20px; background-color: rgba(0, 0, 0, 0.4); border-radius: 12px;
+    backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.bottom-right #newsButton:hover { background-color: rgba(255, 255, 255, 0.1); }
+#newsButtonText, #newsButtonSVG { line-height: normal; margin: 0; }
+
+/* Estilo para el nuevo botón de cerrar noticias */
+#newsCloseButton {
+    position: absolute; top: 20px; right: 20px; z-index: 100;
+    background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white; width: 40px; height: 40px; border-radius: 50%;
+    font-size: 24px; line-height: 38px; text-align: center;
+    cursor: pointer; transition: background-color 0.2s, transform 0.2s;
+}
+#newsCloseButton:hover { background-color: rgba(255, 255, 255, 0.1); transform: scale(1.1); }
+
+/* ========================================================== */
+/* == ESTILOS CORREGIDOS PARA EL ÁREA DE CARGA == */
+/* ========================================================== */
+
+#launch_details {
+    display: none; /* Oculto hasta que se presiona Jugar */
+    flex-direction: row; /* Alinea el porcentaje y la barra horizontalmente */
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Espacio entre el porcentaje y el resto */
+    margin-top: 15px;
+    width: 350px; /* Ancho total del área de carga */
+}
+
+#launch_details_left {
+    width: auto;
+}
+
+#launch_progress_label {
+    font-size: 1.2em;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+#launch_details_right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+}
+
+#launch_progress {
+    width: 250px; /* Ancho de la barra de progreso */
+    height: 5px;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#launch_progress::-webkit-progress-bar {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+#launch_progress::-webkit-progress-value {
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    transition: width 0.1s linear; /* Transición suave de la barra */
+}
+
+#launch_details_text {
+    font-size: 0.8em;
+    color: #d0d0d0;
+}
+
+/* ================================================================= */
+/* == NUEVO DISEÑO PARA LA SELECCIÓN DE SERVIDOR == */
+/* ================================================================= */
+
+/* -- Contenedor principal de la superposición -- */
+#overlayContainer {
+    /* Añadimos el efecto de desenfoque al fondo */
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+/* -- Panel de selección de servidor -- */
+#serverSelectContent {
+    background-color: rgba(30, 30, 30, 0.75); /* Fondo oscuro semitransparente */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+    border-radius: 16px; /* Bordes redondeados */
+    padding: 30px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    width: 500px; /* Hacemos el panel un poco más ancho */
+    max-width: 90%;
+}
+
+/* -- Título "Servidores disponibles" -- */
+#serverSelectHeader {
+    font-size: 1.5em;
+    margin-bottom: 25px;
+}
+
+/* -- Estilo de cada elemento de la lista de servidores -- */
+.serverListing {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    opacity: 0.8;
+    padding: 15px;
+    transition: all 0.2s ease;
+    width: auto; /* Ancho automático */
+}
+
+/* Efecto al pasar el mouse */
+.serverListing:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: scale(1.02);
+}
+
+/* Estilo para el servidor seleccionado */
+.serverListing[selected] {
+    opacity: 1;
+    border: 2px solid #55FFFF; /* Borde cian, igual que el nombre de usuario */
+    box-shadow: 0 0 15px rgba(85, 255, 255, 0.3);
+    transform: scale(1.02);
+}
+
+/* Imagen del servidor */
+.serverListingImg {
+    border-radius: 8px; /* Redondeamos las esquinas de la imagen */
+}
+
+/* -- Botones de Acción -- */
+#serverSelectActions {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row; /* Ponemos los botones uno al lado del otro */
+    gap: 15px; /* Espacio entre ellos */
+}
+
+/* Botón "Seleccionar" */
+#serverSelectConfirm {
+    font-size: 1em;
+    padding: 10px 30px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.3);
+}
+#serverSelectConfirm:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Botón/Texto "Cancelar" */
+#serverSelectCancel {
+    font-size: 1em;
+    padding: 10px 20px;
+}
+
+/* ================================================================= */
+/* == NUEVO DISEÑO PARA LA PANTALLA DE CONFIGURACIÓN == */
+/* ================================================================= */
+
+/* -- Hacemos el fondo principal transparente -- */
+#settingsContainer {
+    background-color: transparent;
+}
+
+/* -- Panel de Navegación Izquierdo -- */
+#settingsContainerLeft {
+    background-color: rgba(10, 10, 10, 0.6); /* Fondo oscuro semitransparente */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 20px;
+    height: 100%;
+}
+
+#settingsNavHeader {
+    height: auto;
+    padding: 20px 0;
+}
+
+/* -- Panel de Contenido Derecho -- */
+#settingsContainerRight {
+    padding: 20px 40px;
+}
+
+/* -- Estilo de cada cuenta en la lista -- */
+.settingsAuthAccount {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.settingsAuthAccount:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.settingsAuthAccountImage {
+    border-radius: 8px; /* Redondeamos la skin */
+}
+
+/* -- Unificamos los contenedores de campos -- */
+.settingsFileSelContainer,
+.settingsFieldContainer,
+#settingsMemoryContainer,
+.settingsAuthAccountTypeContainer {
+    width: 100%; /* Hacemos que ocupen todo el ancho disponible */
+    max-width: 700px; /* Limitamos el ancho para que no se estire demasiado */
+}
+
+/* -- Damos estilo a los headers de sección (Microsoft/Mojang) -- */
+.settingsAuthAccountTypeHeader {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    margin-bottom: 20px;
+}
+
+/* -- Mejoramos la apariencia de los campos de texto -- */
+#settingsContainer input[type=number],
+#settingsContainer input[type=text] {
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+#settingsContainer input[type=number]:focus,
+#settingsContainer input[type=text]:focus {
+    border-color: #55FFFF; /* Borde cian al seleccionar */
+}
+
+/* ========================================================== */
+/* == NUEVO DISEÑO PARA LOS BOTONES DE NAVEGACIÓN LATERAL == */
+/* ========================================================== */
+
+/* Estilo base para cada botón de navegación */
+.settingsNavItem,
+#settingsNavDone {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px 20px;
+    margin: 4px 0; /* Espacio entre los botones */
+    text-align: left;
+    color: #b0b0b0; /* Un gris más claro para el texto no seleccionado */
+    transition: all 0.2s ease;
+}
+
+/* Efecto al pasar el mouse por encima */
+.settingsNavItem:hover,
+#settingsNavDone:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transform: translateX(3px); /* Pequeño movimiento a la derecha */
+}
+
+/* Estilo para el botón que está SELECCIONADO */
+.settingsNavItem[selected] {
+    background-color: rgba(85, 255, 255, 0.15); /* Fondo con el color cian temático */
+    border-left: 4px solid #55FFFF;
+    color: #ffffff;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(85, 255, 255, 0.5);
+}
+
+/* Estilo para el botón "Listo" */
+#settingsNavDone {
+    color: #ffffff;
+}
+
+/* ================================================================= */
+/* == DISEÑO RESPONSIVO PARA VENTANAS PEQUEÑAS == */
+/* ================================================================= */
+
+/* Estos estilos se aplicarán SOLO si el ancho de la ventana es 1000px o menos */
+@media screen and (max-width: 1000px) {
+
+    /* Reducimos el espaciado y el tamaño de la fuente de los botones de navegación */
+    .settingsNavItem,
+    #settingsNavDone {
+        padding: 8px 10px;  /* Menos espaciado horizontal */
+        font-size: 0.9em;   /* Letra un poco más pequeña */
+        margin: 2px 0;      /* Menos espaciado vertical entre botones */
+    }
+
+    /* Hacemos un poco más delgada la barra de selección para que se vea bien */
+    .settingsNavItem[selected] {
+        border-left-width: 3px;
+    }
+
+    /* Reducimos el espaciado del panel derecho para que el contenido no se sienta apretado */
+    #settingsContainerRight {
+        padding: 20px;
+    }
 }
