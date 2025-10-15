@@ -4,17 +4,17 @@
 title = "MFF Minecraft Launcher"
 
 [ejs.landing]
-mediaGitHubURL = "https://github.com/dscalzi/HeliosLauncher"
+mediaGitHubURL = "https://github.com/CopoGamerYT/mff-launcher/"
 mediaXURL = "https://x.com/CopoVTuber"
 mediaInstagramURL = "https://www.instagram.com/copovt_/"
 mediaYouTubeURL = "https://www.youtube.com/@OtrocanaldeCopoxd"
 mediaDiscordURL = "https://discord.gg/B3wd7gEdjh"
 
 [ejs.settings]
-sourceGithubLink = "https://github.com/dscalZi/HeliosLauncher"
-supportLink = "https://github.com/dscalZi/HeliosLauncher/issues"
+sourceGithubLink = "https://github.com/CopoGamerYT/mff-launcher/"
+supportLink = "https://github.com/CopoGamerYT/mff-launcher/issues"
 
 [ejs.welcome]
-welcomeHeader = "WELCOME TO WESTEROSCRAFT"
-welcomeDescription = "Our mission is to recreate the universe imagined by author George RR Martin in his fantasy series, A Song of Ice and Fire.  Through the collaborative effort of thousands of community members, we have sought to create Westeros as accurately and precisely as possible within Minecraft.  The world we are creating is yours to explore.  Journey from Dorne to Castle Black, and if you aren’t afraid, beyond the Wall itself, but best not delay.  As the words of House Stark ominously warn: Winter is Coming."
-welcomeDescCTA = "You are just a few clicks away from Westeros."
+welcomeHeader = "Bienvenido a MFF launcher"
+welcomeDescription = "Este es un launcher personalizado para los eventos de MFF Studios o afiliados, si conseguiste este launcher de maneras externas afuera del discord oficial, ni te molestes en poner tu cuenta aqui por que si o si ocupas estar en la whitelist. Pero si lo conseguiste del discord oficial, Bienvenido"
+welcomeDescCTA = "Solo dale a continuar :D"
