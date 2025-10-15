@@ -1,4 +1,4 @@
-# MFF Minecraft Launcher (Proyecto Personal de Aprendizaje)
+# MFF Minecraft Launcher 
 
 ![Screenshot](https://i.imgur.com/WzEWnIC.png)
 
