@@ -38,8 +38,8 @@ Este proyecto fue mi campo de pruebas para aprender. El código ha sido modifica
 
 ### Créditos / Credits
 
-Este lanzador está basado en el increíble trabajo del proyecto de código abierto **Helios Launcher**. Todo el crédito por la funcionalidad base es para sus desarrolladores originales.
+Este launcher está basado en el increíble trabajo del proyecto de código abierto **Helios Launcher**. Todo el crédito por la funcionalidad base es para Daniel Scalzi y sus desarrolladores originales.
 
-This launcher is based on the incredible work of the open-source **Helios Launcher** project. All credit for the core functionality goes to its original developers.
+This launcher is based on the incredible work of the open-source **Helios Launcher** project. All credit for the core functionality goes to Daniel Scalzi and his original developers.
 
 * **Repositorio Original / Original Repository:** [dscalzi/HeliosLauncher](https://github.com/dscalzi/HeliosLauncher)

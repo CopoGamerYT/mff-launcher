@@ -41,7 +41,7 @@ loginWithMojang = "Iniciar sesión con Mojang"
 cancelButton = "Cancelar"
 
 [ejs.overlay]
-serverSelectHeader = "Servidores disponibles"
+serverSelectHeader = "Eventos/Series disponibles"
 serverSelectConfirm = "Seleccionar"
 serverSelectCancel = "Cancelar"
 accountSelectHeader = "Seleccionar una cuenta"
