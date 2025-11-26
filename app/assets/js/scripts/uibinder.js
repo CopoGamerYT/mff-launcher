@@ -3,8 +3,8 @@
  * Loaded after core UI functions are initialized in uicore.js.
  */
 // Requirements
-const path          = require('path')
-const { Type }      = require('helios-distribution-types')
+// const path          = require('path') // ELIMINADO: Declarado en preloader.js
+// const { Type }      = require('helios-distribution-types') // ELIMINADO: Declarado en preloader.js
 
 const AuthManager   = require('./assets/js/authmanager')
 const ConfigManager = require('./assets/js/configmanager')
@@ -14,7 +14,8 @@ let rscShouldLoad = false
 let fatalStartupError = false
 
 // Mapping of each view to their container IDs.
-const VIEWS = {
+// MODIFICADO: Hecho global (window.) para que login.js pueda verlo
+window.VIEWS = {
     landing: '#landingContainer',
     loginOptions: '#loginOptionsContainer',
     login: '#loginContainer',
@@ -28,8 +29,7 @@ let currentView
 
 /**
  * Switch launcher views.
- * 
- * @param {string} current The ID of the current view container. 
+ * * @param {string} current The ID of the current view container. 
  * @param {*} next The ID of the next view container.
  * @param {*} currentFadeTime Optional. The fade out time for the current view.
  * @param {*} nextFadeTime Optional. The fade in time for the next view.
@@ -50,8 +50,7 @@ function switchView(current, next, currentFadeTime = 500, nextFadeTime = 500, on
 
 /**
  * Get the currently shown view container.
- * 
- * @returns {string} The currently shown view container.
+ * * @returns {string} The currently shown view container.
  */
 function getCurrentView(){
     return currentView
@@ -64,12 +63,27 @@ async function showMainUI(data){
         ipcRenderer.send('autoUpdateAction', 'initAutoUpdater', ConfigManager.getAllowPrerelease())
     }
 
-    await prepareSettings(true)
+    // MODIFICADO: Comentado para evitar error de "prepareSettings is not defined".
+    // Los ajustes se prepararán la primera vez que se haga clic en el botón.
+    // await prepareSettings(true) 
+    
     updateSelectedServer(data.getServerById(ConfigManager.getSelectedServer()))
-    refreshServerStatus()
+
+    try {
+        if(typeof window.populateSideBarServerList === 'function') {
+            window.populateSideBarServerList(data)
+        }
+    } catch (err) {
+        console.error('Error al popular la barra lateral de servidores (en showMainUI):', err)
+    }
+    
+    // MODIFICADO: Comentado porque el elemento HTML ya no existe.
+    // refreshServerStatus() 
+    
+    //initNews() // Ya estaba comentado
     setTimeout(() => {
         document.getElementById('frameBar').style.backgroundColor = 'rgba(0, 0, 0, 0.5)'
-        document.body.style.backgroundImage = `url('assets/images/backgrounds/${document.body.getAttribute('bkid')}.jpg')`
+        //document.body.style.backgroundImage = `url('assets/images/backgrounds/${document.body.getAttribute('bkid')}.jpg')`
         $('#main').show()
 
         const isLoggedIn = Object.keys(ConfigManager.getAuthAccounts()).length > 0
@@ -103,10 +117,6 @@ async function showMainUI(data){
         }, 250)
         
     }, 750)
-    // Disable tabbing to the news container.
-    initNews().then(() => {
-        $('#newsContainer *').attr('tabindex', '-1')
-    })
 }
 
 function showFatalStartupError(){
@@ -129,25 +139,45 @@ function showFatalStartupError(){
 
 /**
  * Common functions to perform after refreshing the distro index.
- * 
- * @param {Object} data The distro index object.
+ * * @param {Object} data The distro index object.
  */
 function onDistroRefresh(data){
     updateSelectedServer(data.getServerById(ConfigManager.getSelectedServer()))
-    refreshServerStatus()
-    initNews()
+    
+    // MODIFICADO: Comentado porque el elemento HTML ya no existe.
+    // refreshServerStatus() 
+    
+    //initNews() // Ya estaba comentado
     syncModConfigurations(data)
     ensureJavaSettings(data)
+
+    // ¡¡AÑADIDO!!
+    // Esta es la nueva función de landing.js que crea los botones de servidor
+try {
+        // Usamos 'window.' para asegurarnos de que la función esté cargada
+        if(typeof window.populateSideBarServerList === 'function') {
+            window.populateSideBarServerList(data)
+        }
+    } catch (err) {
+        console.error('Error al popular la barra lateral de servidores:', err) // <--- ¡ARREGLADO!
+    }
 }
 
 /**
  * Sync the mod configurations with the distro index.
- * 
- * @param {Object} data The distro index object.
+ * * @param {Object} data The distro index object.
  */
 function syncModConfigurations(data){
 
     const syncedCfgs = []
+    
+    // Usamos 'Type' de preloader.js (si no existe, usamos un string)
+    const ModuleType = window.Type || {
+        ForgeMod: 'forgemod',
+        LiteMod: 'litemod',
+        LiteLoader: 'liteloader',
+        FabricMod: 'fabricmod'
+    }
 
     for(let serv of data.servers){
 
@@ -163,7 +193,7 @@ function syncModConfigurations(data){
             for(let mdl of mdls){
                 const type = mdl.rawModule.type
 
-                if(type === Type.ForgeMod || type === Type.LiteMod || type === Type.LiteLoader || type === Type.FabricMod){
+                if(type === ModuleType.ForgeMod || type === ModuleType.LiteMod || type === ModuleType.LiteLoader || type === ModuleType.FabricMod){
                     if(!mdl.getRequired().value){
                         const mdlID = mdl.getVersionlessMavenIdentifier()
                         if(modsOld[mdlID] == null){
@@ -198,7 +228,7 @@ function syncModConfigurations(data){
 
             for(let mdl of mdls){
                 const type = mdl.rawModule.type
-                if(type === Type.ForgeMod || type === Type.LiteMod || type === Type.LiteLoader || type === Type.FabricMod){
+                if(type === ModuleType.ForgeMod || type === ModuleType.LiteMod || type === ModuleType.LiteLoader || type === ModuleType.FabricMod){
                     if(!mdl.getRequired().value){
                         mods[mdl.getVersionlessMavenIdentifier()] = scanOptionalSubModules(mdl.subModules, mdl)
                     } else {
@@ -226,8 +256,7 @@ function syncModConfigurations(data){
 
 /**
  * Ensure java configurations are present for the available servers.
- * 
- * @param {Object} data The distro index object.
+ * * @param {Object} data The distro index object.
  */
 function ensureJavaSettings(data) {
 
@@ -243,17 +272,25 @@ function ensureJavaSettings(data) {
  * Recursively scan for optional sub modules. If none are found,
  * this function returns a boolean. If optional sub modules do exist,
  * a recursive configuration object is returned.
- * 
- * @returns {boolean | Object} The resolved mod configuration.
+ * * @returns {boolean | Object} The resolved mod configuration.
  */
 function scanOptionalSubModules(mdls, origin){
+    
+    // Usamos 'Type' de preloader.js (si no existe, usamos un string)
+    const ModuleType = window.Type || {
+        ForgeMod: 'forgemod',
+        LiteMod: 'litemod',
+        LiteLoader: 'liteloader',
+        FabricMod: 'fabricmod'
+    }
+    
     if(mdls != null){
         const mods = {}
 
         for(let mdl of mdls){
             const type = mdl.rawModule.type
             // Optional types.
-            if(type === Type.ForgeMod || type === Type.LiteMod || type === Type.LiteLoader || type === Type.FabricMod){
+            if(type === ModuleType.ForgeMod || type === ModuleType.LiteMod || type === ModuleType.LiteLoader || type === ModuleType.FabricMod){
                 // It is optional.
                 if(!mdl.getRequired().value){
                     mods[mdl.getVersionlessMavenIdentifier()] = scanOptionalSubModules(mdl.subModules, mdl)
@@ -283,12 +320,10 @@ function scanOptionalSubModules(mdls, origin){
 
 /**
  * Recursively merge an old configuration into a new configuration.
- * 
- * @param {boolean | Object} o The old configuration value.
+ * * @param {boolean | Object} o The old configuration value.
  * @param {boolean | Object} n The new configuration value.
  * @param {boolean} nReq If the new value is a required mod.
- * 
- * @returns {boolean | Object} The merged configuration.
+ * * @returns {boolean | Object} The merged configuration.
  */
 function mergeModConfiguration(o, n, nReq = false){
     if(typeof o === 'boolean'){
@@ -408,8 +443,7 @@ async function validateSelectedAccount(){
 /**
  * Temporary function to update the selected account along
  * with the relevent UI elements.
- * 
- * @param {string} uuid The UUID of the account.
+ * * @param {string} uuid The UUID of the account.
  */
 function setSelectedAccount(uuid){
     const authAcc = ConfigManager.setSelectedAccount(uuid)

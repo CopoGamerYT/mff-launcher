@@ -7,6 +7,10 @@ const { Client } = require('discord-rpc-patch')
 
 const Lang = require('./langloader')
 
+// ==================================================================
+const XEONY_CLIENT_ID = '1443022488731783209'; 
+// ==================================================================
+
 let client
 let activity
 
@@ -29,7 +33,8 @@ exports.initRPC = function(genSettings, servSettings, initialDetails = Lang.quer
         client.setActivity(activity)
     })
     
-    client.login({clientId: genSettings.clientId}).catch(error => {
+    // MODIFICADO: Usamos tu ID fijo en lugar del genérico
+    client.login({clientId: XEONY_CLIENT_ID}).catch(error => {
         if(error.message.includes('ENOENT')) {
             logger.info('Unable to initialize Discord Rich Presence, no client detected.')
         } else {

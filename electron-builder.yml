@@ -1,8 +1,8 @@
-appId: 'mfflauncher'
-productName: 'MFF MC Launcher '
+appId: 'xeonylauncher'
+productName: 'Xeony Launcher'
 artifactName: '${productName}-setup-${version}.${ext}'
 
-copyright: 'Copyright © 2018-2024 Daniel Scalzi'
+copyright: 'Copyright © CopoGamerYT |Github|'
 
 asar: true
 compression: 'maximum'

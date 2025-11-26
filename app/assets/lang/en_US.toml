@@ -234,7 +234,7 @@ okButton = "OK"
 
 [js.settings.authAccountSelect]
 selectButton = "Seleccionar cuenta"
-selectedButton = "Cuenta seleccionada &#10004;"
+selectedButton = "Activa &#10004;"
 
 [js.settings.authAccountLogout]
 lastAccountWarningTitle = "Advertencia<br>Esta es tu última cuenta"
@@ -246,7 +246,7 @@ cancelButton = "Cancelar"
 username = "Nombre de usuario"
 uuid = "UUID"
 selectAccount = "Seleccionar cuenta"
-selectedAccount = "Cuenta seleccionada ✓"
+selectedAccount = "Activa ✓"
 logout = "Cerrar sesión"
 
 [js.settings.dropinMods]

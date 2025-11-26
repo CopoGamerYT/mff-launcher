@@ -1,6 +1,8 @@
 // Requirements
 const os     = require('os')
 const semver = require('semver')
+const path   = require('path')
+const { Type } = require('helios-distribution-types')
 
 const DropinModUtil  = require('./assets/js/dropinmodutil')
 const { MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR } = require('./assets/js/ipcconstants')
@@ -237,8 +239,7 @@ let selectedSettingsTab = 'settingsTabAccount'
 /**
  * Modify the settings container UI when the scroll threshold reaches
  * a certain poin.
- * 
- * @param {UIEvent} e The scroll event.
+ * * @param {UIEvent} e The scroll event.
  */
 function settingsTabScrollListener(e){
     if(e.target.scrollTop > Number.parseFloat(getComputedStyle(e.target.firstElementChild).marginTop)){
@@ -264,8 +265,7 @@ function setupSettingsTabs(){
 /**
  * Settings nav item onclick lisener. Function is exposed so that
  * other UI elements can quickly toggle to a certain tab from other views.
- * 
- * @param {Element} ele The nav item which has been clicked.
+ * * @param {Element} ele The nav item which has been clicked.
  * @param {boolean} fade Optional. True to fade transition.
  */
 function settingsNavItemListener(ele, fade = true){
@@ -314,8 +314,7 @@ const settingsNavDone = document.getElementById('settingsNavDone')
 
 /**
  * Set if the settings save (done) button is disabled.
- * 
- * @param {boolean} v True to disable, false to enable.
+ * * @param {boolean} v True to disable, false to enable.
  */
 function settingsSaveDisabled(v){
     settingsNavDone.disabled = v
@@ -323,10 +322,10 @@ function settingsSaveDisabled(v){
 
 function fullSettingsSave() {
     saveSettingsValues()
-    saveModConfiguration()
+    //saveModConfiguration()
     ConfigManager.save()
-    saveDropinModConfiguration()
-    saveShaderpackSettings()
+    //saveDropinModConfiguration()
+    //saveShaderpackSettings()
 }
 
 /* Closes the settings view and saves all data. */
@@ -504,8 +503,7 @@ function bindAuthAccountLogOut(){
 let msAccDomElementCache
 /**
  * Process a log out.
- * 
- * @param {Element} val The log out button element.
+ * * @param {Element} val The log out button element.
  * @param {boolean} isLastAccount If this logout is on the last added account.
  */
 function processLogOut(val, isLastAccount){
@@ -600,8 +598,7 @@ ipcRenderer.on(MSFT_OPCODE.REPLY_LOGOUT, (_, ...arguments_) => {
 /**
  * Refreshes the status of the selected account on the auth account
  * elements.
- * 
- * @param {string} uuid The UUID of the new selected account.
+ * * @param {string} uuid The UUID of the new selected account.
  */
 function refreshAuthAccountSelected(uuid){
     Array.from(document.getElementsByClassName('settingsAuthAccount')).map((val) => {
@@ -624,9 +621,6 @@ const settingsCurrentMojangAccounts = document.getElementById('settingsCurrentMo
 /**
  * Add auth account elements for each one stored in the authentication database.
  */
-/**
- * Add auth account elements for each one stored in the authentication database.
- */
 function populateAuthAccounts(){
     const authAccounts = ConfigManager.getAuthAccounts()
     const authKeys = Object.keys(authAccounts)
@@ -637,14 +631,20 @@ function populateAuthAccounts(){
 
     let microsoftAuthAccountStr = ''
     let mojangAuthAccountStr = ''
+    let offlineAuthAccountStr = '' // --- XEONY MOD: String para cuentas offline
 
     authKeys.forEach((val) => {
         const acc = authAccounts[val]
 
-        // ¡¡MODIFICACIÓN!! Se ha cambiado el panel del UUID para añadir el botón.
+        // --- XEONY MOD: Estilos diferentes para cuenta Offline (Icono Gris) ---
+        const avatarFilter = (acc.type === 'offline' || (acc.meta && acc.meta.type === 'offline')) 
+                             ? 'filter: grayscale(100%); opacity: 0.8;' 
+                             : '';
+        // ----------------------------------------------------------------------
+
         const accHtml = `<div class="settingsAuthAccount" uuid="${acc.uuid}">
             <div class="settingsAuthAccountLeft">
-                <img class="settingsAuthAccountImage" alt="${acc.displayName}" src="https://mc-heads.net/body/${acc.uuid}/60">
+                <img class="settingsAuthAccountImage" style="${avatarFilter}" alt="${acc.displayName}" src="https://mc-heads.net/body/${acc.uuid}/60">
             </div>
             <div class="settingsAuthAccountRight">
                 <div class="settingsAuthAccountDetails">
@@ -676,6 +676,9 @@ function populateAuthAccounts(){
 
         if(acc.type === 'microsoft') {
             microsoftAuthAccountStr += accHtml
+        } else if (acc.type === 'offline' || (acc.meta && acc.meta.type === 'offline')) {
+            // --- XEONY MOD: Lógica para Offline ---
+            offlineAuthAccountStr += accHtml
         } else {
             mojangAuthAccountStr += accHtml
         }
@@ -684,6 +687,35 @@ function populateAuthAccounts(){
 
     settingsCurrentMicrosoftAccounts.innerHTML = microsoftAuthAccountStr
     settingsCurrentMojangAccounts.innerHTML = mojangAuthAccountStr
+
+    // --- XEONY MOD: Inyección Automática de la Sección Offline ---
+    let settingsCurrentOfflineAccounts = document.getElementById('settingsCurrentOfflineAccounts');
+    
+    // Si el contenedor no existe, lo creamos dinámicamente en el DOM
+    if (!settingsCurrentOfflineAccounts) {
+        // 1. Crear Título
+        const offlineHeader = document.createElement('div');
+        offlineHeader.className = 'settingsHeader'; // Clase de estilo de Helios
+        offlineHeader.innerText = 'Cuentas No Premium';
+        offlineHeader.style.marginTop = '20px'; // Un poco de espacio
+
+        // 2. Crear Contenedor
+        const offlineContainer = document.createElement('div');
+        offlineContainer.id = 'settingsCurrentOfflineAccounts';
+
+        // 3. Insertar después de Mojang (Buscamos el contenedor de Mojang y su padre)
+        if (settingsCurrentMojangAccounts && settingsCurrentMojangAccounts.parentNode) {
+            settingsCurrentMojangAccounts.parentNode.appendChild(offlineHeader);
+            settingsCurrentMojangAccounts.parentNode.appendChild(offlineContainer);
+            settingsCurrentOfflineAccounts = offlineContainer; // Actualizamos referencia
+        }
+    }
+
+    // 4. Llenar el contenedor
+    if (settingsCurrentOfflineAccounts) {
+        settingsCurrentOfflineAccounts.innerHTML = offlineAuthAccountStr;
+    }
+    // ------------------------------------------------------------
 }
 
 
@@ -773,8 +805,7 @@ async function resolveModsForUI(){
 
 /**
  * Recursively build the mod UI elements.
- * 
- * @param {Object[]} mdls An array of modules to parse.
+ * * @param {Object[]} mdls An array of modules to parse.
  * @param {boolean} submodules Whether or not we are parsing submodules.
  * @param {Object} servConf The server configuration object for this module level.
  */
@@ -873,8 +904,7 @@ function saveModConfiguration(){
 
 /**
  * Recursively save mod config with submods.
- * 
- * @param {Object} modConf Mod config object to save.
+ * * @param {Object} modConf Mod config object to save.
  */
 function _saveModConfiguration(modConf){
     for(let m of Object.entries(modConf)){
@@ -1269,8 +1299,7 @@ settingsMaxRAMRange.onchange = (e) => {
 
 /**
  * Calculate common values for a ranged slider.
- * 
- * @param {Element} v The range slider to calculate against. 
+ * * @param {Element} v The range slider to calculate against. 
  * @returns {Object} An object with meta values for the provided ranged slider.
  */
 function calculateRangeSliderMeta(v){
@@ -1335,8 +1364,7 @@ function bindRangeSlider(){
 
 /**
  * Update a ranged slider's value and position.
- * 
- * @param {Element} element The ranged slider to update.
+ * * @param {Element} element The ranged slider to update.
  * @param {string | number} value The new value for the ranged slider.
  * @param {number} notch The notch that the slider should now be at.
  */
@@ -1381,13 +1409,12 @@ function populateMemoryStatus(){
 /**
  * Validate the provided executable path and display the data on
  * the UI.
- * 
- * @param {string} execPath The executable path to populate against.
+ * * @param {string} execPath The executable path to populate against.
  */
 async function populateJavaExecDetails(execPath){
     const server = (await DistroAPI.getDistribution()).getServerById(ConfigManager.getSelectedServer())
 
-    const details = await validateSelectedJvm(ensureJavaDirIsRoot(execPath), server.effectiveJavaOptions.supported)
+    const details = await window.validateSelectedJvm(window.ensureJavaDirIsRoot(execPath), server.effectiveJavaOptions.supported)
 
     if(details != null) {
         settingsJavaExecDetails.innerHTML = Lang.queryJS('settings.java.selectedJava', { version: details.semverStr, vendor: details.vendor })
@@ -1458,8 +1485,7 @@ document.getElementById('settingsAboutDevToolsButton').onclick = (e) => {
 
 /**
  * Return whether or not the provided version is a prerelease.
- * 
- * @param {string} version The semver version to test.
+ * * @param {string} version The semver version to test.
  * @returns {boolean} True if the version is a prerelease, otherwise false.
  */
 function isPrerelease(version){
@@ -1470,8 +1496,7 @@ function isPrerelease(version){
 /**
  * Utility method to display version information on the
  * About and Update settings tabs.
- * 
- * @param {string} version The semver version to display.
+ * * @param {string} version The semver version to display.
  * @param {Element} valueElement The value element.
  * @param {Element} titleElement The title element.
  * @param {Element} checkElement The check mark element.
@@ -1550,8 +1575,7 @@ const settingsUpdateActionButton   = document.getElementById('settingsUpdateActi
 
 /**
  * Update the properties of the update action button.
- * 
- * @param {string} text The new button text.
+ * * @param {string} text The new button text.
  * @param {boolean} disabled Optional. Disable or enable the button
  * @param {function} handler Optional. New button event handler.
  */
@@ -1565,8 +1589,7 @@ function settingsUpdateButtonStatus(text, disabled = false, handler = null){
 
 /**
  * Populate the update tab with relevant information.
- * 
- * @param {Object} data The update data.
+ * * @param {Object} data The update data.
  */
 function populateSettingsUpdateInformation(data){
     if(data != null){
@@ -1598,8 +1621,7 @@ function populateSettingsUpdateInformation(data){
 
 /**
  * Prepare update tab for display.
- * 
- * @param {Object} data The update data.
+ * * @param {Object} data The update data.
  */
 function prepareUpdateTab(data = null){
     populateSettingsUpdateInformation(data)
@@ -1611,21 +1633,23 @@ function prepareUpdateTab(data = null){
 
 /**
   * Prepare the entire settings UI.
-  * 
-  * @param {boolean} first Whether or not it is the first load.
+  * * @param {boolean} first Whether or not it is the first load.
   */
 async function prepareSettings(first = false) {
+    setupSettingsTabs()
+    initSettingsValidators()
+
     if(first){
-        setupSettingsTabs()
-        initSettingsValidators()
-        prepareUpdateTab()
+        
     } else {
-        await prepareModsTab()
+        
     }
+
     await initSettingsValues()
     prepareAccountsTab()
     await prepareJavaTab()
     prepareAboutTab()
+    prepareUpdateTab() 
 }
 
 // Prepare the settings UI on startup.

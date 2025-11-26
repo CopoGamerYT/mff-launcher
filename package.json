@@ -1,13 +1,13 @@
 {
-  "name": "mfflauncher",
-  "version": "1.0.1",
-  "productName": "MFF Minecraft Launcher",
-  "description": "Si fuiste invitado a un evento, entra aqui para disfrutar de la serie!!",
-  "author": "CopoGamerYT",
+  "name": "xeonylauncher",
+  "version": "1.0.0",
+  "productName": "Xeony Launcher",
+  "description": "Xeony Launcher for events and more",
+  "author": "CopoGamerYT and Eionas",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/CopoGamerYT/mff-launcher",
+  "homepage": "https://github.com/CopoGamerYT/Xeony-Launcher",
   "bugs": {
-    "url": "https://github.com/CopoGamerYT/mff-launcher/issues"
+    "url": "https://github.com/CopoGamerYT/Xeony-Launcher/issues"
   },
   "private": true,
   "main": "index.js",
@@ -48,6 +48,34 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CopoGamerYT/mff-launcher.git"
-}
+    "url": "git+https://github.com/CopoGamerYT/Xeony-Launcher.git"
+  },
+  "build": {
+    "appId": "com.copogameryt.xeonylauncher",
+    "productName": "Xeony Launcher",
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "app/assets/images/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true,
+      "shortcutName": "Xeony Launcher"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "CopoGamerYT",
+        "repo": "Xeony-Launcher"
+      }
+    ]
+  }
 }
