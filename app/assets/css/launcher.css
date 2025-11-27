@@ -29,6 +29,7 @@
  ******************************************************************************/
 
 /* Reset body, html, and div presets. */
+
 body, html, div {
     margin: 0px;
     padding: 0px;
@@ -3918,7 +3919,7 @@ input:checked + .toggleSwitchSlider:before {
 
 /* Loading container, placed above everything. */
 #landingContainer {
-    background-image: url('../images/backgrounds/loading/0.jpg'); 
+    background-image: url('../images/backgrounds/loading/0.png'); 
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -3935,7 +3936,7 @@ input:checked + .toggleSwitchSlider:before {
     justify-content: center;
     width: 100%;
     height: 100%;;
-    background-image: url('../images/backgrounds/loading/0.jpg');
+    background-image: url('../images/backgrounds/loading/0.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -4457,7 +4458,7 @@ body {
     border: none;
     margin-bottom: 20px;
     /* Si quieres poner tu logo, descomenta esta línea: */
-    background-image: url('../images/logoxeony.png');
+    background-image: url('../images/MFFLogo.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -4614,7 +4615,7 @@ body {
 /* Si el fondo dinámico falla o carga lento, se verá esto detrás */
 body, html, #overlayContainer {
     background-color: #000; /* Fondo negro de seguridad */
-    background-image: url('../images/backgrounds/loading/0.jpg') !important;
+    background-image: url('../images/backgrounds/loading/0.png') !important;
     background-size: cover;
     background-position: center;
 }
@@ -4643,7 +4644,7 @@ body, html, #overlayContainer {
     background: none !important; 
     
     /* Define aquí tu imagen inicial por defecto */
-    --bg-url: url('../images/backgrounds/loading/0.jpg');
+    --bg-url: url('../images/backgrounds/loading/0.png');
 }
 
 /* Creamos una capa separada solo para la imagen */
@@ -4782,3 +4783,4 @@ body, html, #overlayContainer {
 #loginOptionMicrosoft, #loginOptionMojang, #noPremiumBtn {
     border-radius: 15px !important;
 }
+

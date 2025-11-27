@@ -1,20 +1,20 @@
 # Custom Language File for Launcher Customizer
 
 [ejs.app]
-title = "Xeony Launcher"
+title = "MFF Launcher"
 
 [ejs.landing]
 mediaGitHubURL = ""
 mediaXURL = ""
 mediaInstagramURL = ""
 mediaYouTubeURL = ""
-mediaDiscordURL = "https://discord.gg/RrvkGZXmpf"
+mediaDiscordURL = "https://discord.gg/n2hnd5sV8c"
 
 [ejs.settings]
 sourceGithubLink = "https://github.com/CopoGamerYT/mff-launcher/"
 supportLink = "https://github.com/CopoGamerYT/mff-launcher/issues"
 
 [ejs.welcome]
-welcomeHeader = "Bienvenido a Xeony Launcher"
-welcomeDescription = "Este es un launcher personalizado para los eventos de Xeony Studios o afiliados, si conseguiste este launcher de maneras externas afuera del discord oficial, ni te molestes en poner tu cuenta aqui por que si o si ocupas estar en la whitelist. Pero si lo conseguiste del discord oficial, Bienvenido"
-welcomeDescCTA = "Solo dale a continuar."
+welcomeHeader = "Bienvenido a MFF Launcher"
+welcomeDescription = "Bienvenido a la nueva version de MFF Launcher que agrega nuevas funciones y nuevo gui. Nuevamente si conseguiste este launcher de maneras externas ni te apuntes que hay whitelist jaja, si lo conseguiste en el discord oficial eres bienvenido :D"
+welcomeDescCTA = "Dale a continuar."

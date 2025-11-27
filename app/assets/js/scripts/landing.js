@@ -85,7 +85,7 @@ function finishLoadingText() {
 // ==================================================================================
 // --- XEONYS BACKGROUNDS HÍBRIDOS (IMG + MP4) ---
 // ==================================================================================
-const REMOTE_BG_URL = "http://va1.holy.gg:26403/launcherfiles/backgrounds/"; 
+const REMOTE_BG_URL = "https://pub-4bc5b7fc9cdb4f3ca60fb262c2d003ce.r2.dev/backgrounds/"; 
 const DEFAULT_BG_LOCAL = "../images/backgrounds/loading/0.jpg"; 
 const ALLOWED_EXTENSIONS = [".mp4", ".gif", ".png", ".jpg", ".jpeg"];
 
@@ -239,7 +239,7 @@ function updateSelectedServer(serv){
 // ==================================================================================
 // === XEONY WHITELIST SYSTEM (MODO DIOS + BLOQUEO TOTAL) ===
 // ==================================================================================
-const WHITELIST_BASE_URL = "http://va1.holy.gg:26403/launcherfiles/whitelist/";
+const WHITELIST_BASE_URL = "https://pub-4bc5b7fc9cdb4f3ca60fb262c2d003ce.r2.dev/whitelist/";
 
 async function populateSideBarServerList(distro) {
     const container = document.getElementById('sideBarServerList');

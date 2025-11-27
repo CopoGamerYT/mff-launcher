@@ -1,89 +1,75 @@
-# Xeony Launcher
+# MFF Minecraft Launcher
 
-![Banner](https://i.imgur.com/jhvLkQz.png)
+![Screenshot](https://i.imgur.com/5DIwrbo.png)
 
-<div align="center">
+### Descripción (Español)
+Este es un proyecto personal **sin fines de lucro**, desarrollado con el objetivo principal de aprender sobre la personalización de lanzadores basados en Electron y Java. El launcher ha sido modificado con una interfaz de usuario completamente nueva, sistema de login personalizado y optimizaciones visuales para uso privado entre amigos y nuestra comunidad.
 
-![Status](https://img.shields.io/badge/Status-Beta-blue)
-![License](https://img.shields.io/badge/License-Non--Profit-red)
-![Based On](https://img.shields.io/badge/Based%20On-Helios%20Launcher-green)
+**No se busca obtener ningún beneficio económico con este proyecto.**
 
-**El lanzador oficial para los eventos y servidores de Xeony Studios.**
-*The official launcher for Xeony Studios events and servers.*
+### Description (English)
+This is a personal, **non-profit project**, developed primarily for the purpose of learning about the customization of Electron and Java-based launchers. The launcher has been modified with a completely new user interface, custom login system, and visual optimizations for private use among friends and our community.
 
-[Español](#descripción-general) | [English](#general-description)
-
-</div>
+**This project is not intended for any monetary gain.**
 
 ---
 
-## 🚫 Advertencia para Desarrolladores / Developer Warning
+## ⚠️ Aviso Legal / Legal Disclaimer
 
-### 🇪🇸 LEER ANTES DE CLONAR
-**No se recomienda utilizar este repositorio como base para tu propio proyecto.**
+### Sobre el Modo Offline / About Offline Mode
 
-1.  **Infraestructura Vinculada:** Gran parte del código (login, whitelist, descargas) está **"hardcoded" (vinculado fijamente)** a los servidores privados de Xeony. Si clonas este repo, el launcher no funcionará.
-2.  **Código Experimental:** Este proyecto fue creado con fines de aprendizaje. Si eres un programador avanzado, notarás **malas prácticas, código desordenado ("spaghetti code") y soluciones rápidas**. No es un ejemplo de código limpio.
-3.  **Usa el Original:** Si quieres crear tu propio launcher, por favor haz un fork del repositorio original de [HeliosLauncher](https://github.com/dscalzi/HeliosLauncher), que está correctamente documentado.
+**Español:**
+Este lanzador implementa una función de acceso "No Premium" (Offline). Esta característica ha sido añadida **exclusivamente con fines de accesibilidad y pruebas internas**.
+* 🚫 **No fomentamos la piratería:** Este proyecto no tiene la intención de promover la descarga ilegal de Minecraft.
+* Apoyamos totalmente a los desarrolladores originales (Mojang Studios). Si disfrutas del juego, por favor cómpralo oficialmente en [minecraft.net](https://www.minecraft.net/).
 
-### 🇺🇸 READ BEFORE CLONING
-**It is not recommended to use this repository as a base for your own project.**
-
-1.  **Hardlinked Infrastructure:** Much of the code (login, whitelist, downloads) is **hardcoded** to Xeony's private servers. If you clone this repo, the launcher will not work.
-2.  **Experimental Code:** This project was created for learning purposes. If you are an advanced programmer, you will notice **bad practices, messy code ("spaghetti code"), and quick fixes**. This is not an example of clean code.
-3.  **Use the Original:** If you want to create your own launcher, please fork the original [HeliosLauncher](https://github.com/dscalzi/HeliosLauncher) repository, which is properly documented.
+**English:**
+This launcher implements a "Non-Premium" (Offline) access feature. This feature has been added **exclusively for accessibility and internal testing purposes**.
+* 🚫 **We do not encourage piracy:** This project is not intended to promote the illegal downloading of Minecraft.
+* We fully support the original developers (Mojang Studios). If you enjoy the game, please purchase it officially at [minecraft.net](https://www.minecraft.net/).
 
 ---
 
-## ⚖️ Aviso sobre Modo No-Premium / Disclaimer
+## 🛠️ Nota para Desarrolladores / Note for Developers
 
-**🇪🇸 Sobre la Piratería:**
-La implementación del soporte para cuentas "Offline" o "No Premium" **NO tiene la intención de fomentar la piratería**.
-Esta función se ha incluido exclusivamente para garantizar la **accesibilidad e inclusión** dentro de nuestra comunidad, permitiendo participar a aquellos usuarios que, por restricciones económicas o regionales, no pueden adquirir una licencia oficial en este momento.
-**Recomendamos encarecidamente comprar Minecraft oficial para apoyar a los desarrolladores (Mojang Studios).**
+**Español:**
+**No se recomienda usar este repositorio como base para tu propio launcher.**
+Este proyecto fue mi "campo de pruebas" para aprender. El código ha sido modificado de forma experimental y puede ser confuso, desordenado o no seguir las mejores prácticas de programación.
 
-**🇺🇸 Regarding Piracy:**
-The implementation of "Offline" or "Non-Premium" account support **does NOT seek to encourage piracy**.
-This feature is included solely to ensure **accessibility and inclusivity** within our community, allowing users who cannot currently afford an official license due to economic or regional restrictions to participate.
-**We strongly recommend purchasing the official Minecraft game to support the developers (Mojang Studios).**
+Si estás interesado en crear tu propio lanzador, te recomiendo encarecidamente que utilices el **repositorio original**, que está mucho mejor documentado, limpio y estructurado.
 
----
+**English:**
+**It is not recommended to use this repository as a base for your own launcher.**
+This project was my learning playground. The code has been modified experimentally and may be confusing, messy, or not follow best practices.
 
-## Descripción General
-
-**Xeony Launcher** es un proyecto personal desarrollado por y para la comunidad de **Xeony Studios**. Su único propósito es facilitar el acceso a nuestros servidores de Minecraft para eventos y entretenimiento.
-
-* **Sin fines de lucro:** No se busca obtener ningún beneficio económico con este software.
-* **Personalización:** Incluye características únicas como fondos de video dinámicos, sistema de Whitelist remoto y soporte para cuentas No-Premium (Offline) con restricciones de seguridad.
+If you are interested in creating your own launcher, I strongly recommend using the **original repository**, which is much better documented, clean, and structured.
 
 ---
 
-## General Description
+## ✨ Screenshots
 
-**Xeony Launcher** is a personal project developed by and for the **Xeony Studios** community. Its sole purpose is to facilitate access to our Minecraft servers for events and entertainment.
-
-* **Non-profit:** This software is not intended for any monetary gain.
-* **Customization:** Includes unique features such as dynamic video backgrounds, a remote Whitelist system, and support for Non-Premium (Offline) accounts with security restrictions.
-
----
-
-## ✨ Galería / Gallery
-
-| Pantalla de Inicio (Video) | Selección de Servidor | Configuración |
+| Pantalla de Inicio | Configuración de Cuentas |
 | :---: | :---: | :---: |
-| ![Inicio](https://i.imgur.com/0m9zNTK.png) | ![Inicio sin whitelist](https://i.imgur.com/YqEhH0z.png) | ![Configuración](https://i.imgur.com/6b72Adf.png) |
+| ![Screenshot de la pantalla de inicio](https://i.imgur.com/WhFfvYQ.png) | ![Screenshot de la configuración](https://i.imgur.com/PdOiLNf.png) |
+
 
 ---
 
-## Créditos / Credits
+## 🌟 Créditos / Credits
 
-Este proyecto no sería posible sin el increíble trabajo de la comunidad Open Source.
+Este launcher es un fork (modificación) basado en el increíble trabajo del proyecto de código abierto **Helios Launcher**.
 
-* **Core & Base:** Basado en [Helios Launcher](https://github.com/dscalzi/HeliosLauncher) creado por **dscalzi**. Todo el crédito de la estructura base y el funcionamiento interno es para ellos.
-* **Modificaciones / Mods:** Interfaz, lógica de seguridad y adaptaciones visuales realizadas por **CopoGamerYT** para Xeony Studios.
+* **Base del Proyecto:** [Helios Launcher](https://github.com/dscalzi/HeliosLauncher)
+* **Autor Original:** Daniel Scalzi (`dscalzi`)
+* **Desarrolladores de Helios:** Todo el crédito por la funcionalidad del núcleo (Core) y la estructura de Electron es para ellos.
+
+This launcher is a fork based on the incredible work of the open-source **Helios Launcher** project. All credit for the core functionality goes to Daniel Scalzi and his original developers.
 
 ---
 
 <div align="center">
-  <sub>Hecho con ❤️ y mucho café para la comunidad de Minecraft.</sub>
+  
+  ### "Hecho por un jugador para jugadores :P"
+  ### "Made by a gamer for gamers :P"
+
 </div>

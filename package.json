@@ -1,13 +1,13 @@
 {
-  "name": "xeonylauncher",
-  "version": "1.0.0",
-  "productName": "Xeony Launcher",
-  "description": "Xeony Launcher for events and more",
-  "author": "CopoGamerYT and Eionas",
+  "name": "mfflauncher",
+  "version": "2.0.0",
+  "productName": "MFF Launcher",
+  "description": "Launcher oficial para eventos de la MFF",
+  "author": "CopoGamerYT",
   "license": "UNLICENSED",
-  "homepage": "https://github.com/CopoGamerYT/Xeony-Launcher",
+  "homepage": "https://github.com/CopoGamerYT/mff-launcher",
   "bugs": {
-    "url": "https://github.com/CopoGamerYT/Xeony-Launcher/issues"
+    "url": "https://github.com/CopoGamerYT/mff-launcher/issues"
   },
   "private": true,
   "main": "index.js",
@@ -44,15 +44,15 @@
   "devDependencies": {
     "electron": "^33.2.1",
     "electron-builder": "^25.1.8",
-    "eslint": "^8.5.7.1"
+    "eslint": "^8.57.1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CopoGamerYT/Xeony-Launcher.git"
+    "url": "git+https://github.com/CopoGamerYT/mff-launcher.git"
   },
   "build": {
-    "appId": "com.copogameryt.xeonylauncher",
-    "productName": "Xeony Launcher",
+    "appId": "com.copogameryt.mfflauncher",
+    "productName": "MFF Launcher",
     "directories": {
       "buildResources": "build",
       "output": "dist"
@@ -68,13 +68,13 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "runAfterFinish": true,
-      "shortcutName": "Xeony Launcher"
+      "shortcutName": "MFF Launcher"
     },
     "publish": [
       {
         "provider": "github",
         "owner": "CopoGamerYT",
-        "repo": "Xeony-Launcher"
+        "repo": "MFFLauncher"
       }
     ]
   }

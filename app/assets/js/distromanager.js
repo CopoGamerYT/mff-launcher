@@ -4,7 +4,7 @@ const ConfigManager = require('./configmanager')
 
 //
 // 
-exports.REMOTE_DISTRO_URL = 'https://raw.githubusercontent.com/CopoGamerYT/xeony-files/refs/heads/main/distribution.json'
+exports.REMOTE_DISTRO_URL = 'https://raw.githubusercontent.com/CopoGamerYT/mff-launcher-beta/refs/heads/main/distribution.json'
 
 const api = new DistributionAPI(
     ConfigManager.getLauncherDirectory(),
