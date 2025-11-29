@@ -8,7 +8,7 @@ const { Client } = require('discord-rpc-patch')
 const Lang = require('./langloader')
 
 // ==================================================================
-const XEONY_CLIENT_ID = '1443022488731783209'; 
+const XEONY_CLIENT_ID = '1444187447738105947'; 
 // ==================================================================
 
 let client
