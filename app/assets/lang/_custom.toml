@@ -4,14 +4,14 @@
 title = "MFF Launcher"
 
 [ejs.landing]
-mediaGitHubURL = ""
+mediaGitHubURL = "https://github.com/CopoGamerYT/mff-launcher/"
 mediaXURL = ""
 mediaInstagramURL = ""
 mediaYouTubeURL = ""
 mediaDiscordURL = "https://discord.gg/n2hnd5sV8c"
 
 [ejs.settings]
-sourceGithubLink = "https://github.com/CopoGamerYT/mff-launcher/"
+sourceGithubLink = "https://github.com/CopoGamerYT/mff-launcher"
 supportLink = "https://github.com/CopoGamerYT/mff-launcher/issues"
 
 [ejs.welcome]
