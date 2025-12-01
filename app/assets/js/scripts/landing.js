@@ -583,40 +583,168 @@ async function asyncSystemScan(effectiveJavaOptions, launchAfter = true){
 }
 
 async function downloadJava(effectiveJavaOptions, launchAfter = true) {
-    const asset = await window.latestOpenJDK(effectiveJavaOptions.suggestedMajor, ConfigManager.getDataDirectory(), effectiveJavaOptions.distribution)
-    if(asset == null) { 
-        isGameRunning = false;
-        throw new Error(Lang.queryJS('landing.downloadJava.findJdkFailure')) 
-    }
-    let received = 0
-    await downloadFile(asset.url, asset.path, ({ transferred }) => {
-        received = transferred
-        setDownloadPercentage(Math.trunc((transferred/asset.size)*100))
-    })
-    setDownloadPercentage(100)
-    if(received != asset.size) {
-        loggerLanding.warn(`Java Download: Expected ${asset.size} bytes but received ${received}`)
-        if(!await validateLocalFile(asset.path, asset.algo, asset.hash)) {
-            isGameRunning = false;
-            log.error(`Hashes do not match, ${asset.id} may be corrupted.`)
-            throw new Error(Lang.queryJS('landing.downloadJava.javaDownloadCorruptedError'))
+    const loggerLaunchSuite = LoggerUtil.getLogger('LaunchSuite');
+    const path = require('path');
+    const fs = require('fs-extra');
+
+    // =================================================================
+    // --- LÓGICA DE LECTURA DIRECTA (DISTRIBUTION.JSON) ---
+    // =================================================================
+    let mcVer = "Unknown";
+    let smartVersion = 21; // Default: Java 21
+
+    try {
+        console.log("[XeonySmart] Leyendo distribution.json...");
+
+        const dataDir = ConfigManager.getDataDirectory();
+        const distroPath = path.join(dataDir, 'distribution.json');
+
+        if (fs.existsSync(distroPath)) {
+            const distroRaw = fs.readFileSync(distroPath, 'utf-8');
+            const distroData = JSON.parse(distroRaw);
+            const currentServerId = ConfigManager.getSelectedServer();
+            const serverInfo = distroData.servers.find(s => s.id === currentServerId);
+
+            if (serverInfo && serverInfo.minecraftVersion) {
+                mcVer = serverInfo.minecraftVersion;
+                console.log(`[XeonySmart] Versión detectada: ${mcVer}`);
+
+                // Reglas de Java
+                if (mcVer.startsWith('1.20') || mcVer.startsWith('1.21') || mcVer.startsWith('1.22')) {
+                    smartVersion = 21;
+                } else if (mcVer === '1.16.5' || mcVer.startsWith('1.17') || mcVer.startsWith('1.18') || mcVer.startsWith('1.19')) {
+                    smartVersion = 17;
+                } else if (mcVer.startsWith('1.12') || mcVer.startsWith('1.8') || mcVer.startsWith('1.7')) {
+                    smartVersion = 8;
+                }
+            }
         }
+    } catch (err) {
+        console.error("[XeonySmart] Error leyendo JSON (Usando Java 21):", err);
     }
-    remote.getCurrentWindow().setProgressBar(2)
-    const eLStr = Lang.queryJS('landing.downloadJava.extractingJava')
-    let dotStr = ''
-    setLaunchDetails(eLStr)
-    const extractListener = setInterval(() => {
-        if(dotStr.length >= 3){ dotStr = '' } else { dotStr += '.' }
-        setLaunchDetails(eLStr + dotStr)
-    }, 750)
-    const newJavaExec = await window.extractJdk(asset.path)
-    remote.getCurrentWindow().setProgressBar(-1)
-    ConfigManager.setJavaExecutable(ConfigManager.getSelectedServer(), newJavaExec)
-    ConfigManager.save()
-    clearInterval(extractListener)
-    setLaunchDetails(Lang.queryJS('landing.downloadJava.javaInstalled'))
-    asyncSystemScan(effectiveJavaOptions, launchAfter)
+
+    console.log(`[XeonySmart] Decisión final: Java ${smartVersion}`);
+
+    // 1. DICCIONARIO ZULU
+    const ZULU_URLS = {
+        8:  "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?os=windows&arch=x86_64&java_version=8&ext=zip&javafx=false",
+        16: "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?os=windows&arch=x86_64&java_version=16&ext=zip&javafx=false",
+        17: "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?os=windows&arch=x86_64&java_version=17&ext=zip&javafx=false",
+        18: "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?os=windows&arch=x86_64&java_version=18&ext=zip&javafx=false",
+        21: "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?os=windows&arch=x86_64&java_version=21&ext=zip&javafx=false",
+        25: "https://api.azul.com/zulu/download/community/v1.0/bundles/latest/binary/?os=windows&arch=x86_64&java_version=25&ext=zip&javafx=false"
+    };
+
+    const requiredVersion = smartVersion;
+    const downloadUrl = ZULU_URLS[requiredVersion];
+
+    // UI
+    setLaunchDetails(`Bajando Java ${requiredVersion} para MC ${mcVer}...`);
+    toggleLaunchArea(true);
+
+    // 2. PREPARAR CARPETAS
+    const dataDir = ConfigManager.getDataDirectory();
+    const runtimesDir = path.join(dataDir, 'runtimes');
+    const tempZipPath = path.join(dataDir, `java-temp-${requiredVersion}.zip`);
+
+    if (!fs.existsSync(runtimesDir)) {
+        fs.mkdirSync(runtimesDir, { recursive: true });
+    }
+
+    // 3. DESCARGAR
+    try {
+        await downloadFile(downloadUrl, tempZipPath, ({ transferred, total }) => {
+            const totalSize = total > 0 ? total : 150000000; 
+            const percent = Math.trunc((transferred / totalSize) * 100);
+            setDownloadPercentage(percent);
+            setLaunchDetails(`Bajando Java: ${percent}%`);
+        });
+    } catch (err) {
+        loggerLaunchSuite.error("Error descargando Java:", err);
+        showLaunchFailure("Error de Red", "No se pudo conectar con Azul Zulu.");
+        return;
+    }
+
+    setDownloadPercentage(100);
+    setLaunchDetails("Instalando archivos...");
+
+    // 4. EXTRAER
+    try {
+        await window.extractJdk(tempZipPath, runtimesDir);
+    } catch (err) {
+        loggerLaunchSuite.error("Error extrayendo:", err);
+        showLaunchFailure("Error", "Falló la descompresión del archivo.");
+        return;
+    }
+
+    // 5. ENCONTRAR Y MOVER
+    setLaunchDetails("Configurando Java...");
+
+    try {
+        const rootItems = fs.readdirSync(dataDir);
+        
+        const extractedFolder = rootItems.find(item => {
+            const fullPath = path.join(dataDir, item);
+            try {
+                const isDir = fs.lstatSync(fullPath).isDirectory();
+                return isDir && 
+                       item !== 'runtimes' && 
+                       (item.includes('zulu') || item.includes('jdk')) && 
+                       item.includes(String(requiredVersion));
+            } catch(e) { return false; }
+        });
+
+        let finalJavaPath = null;
+
+        if (extractedFolder) {
+            console.log(`[XeonyJava] Carpeta detectada: ${extractedFolder}`);
+            const sourcePath = path.join(dataDir, extractedFolder);
+            const destPath = path.join(runtimesDir, extractedFolder);
+
+            if (fs.existsSync(destPath)) {
+                fs.rmdirSync(destPath, { recursive: true });
+            }
+
+            fs.moveSync(sourcePath, destPath);
+            finalJavaPath = path.join(destPath, 'bin', 'javaw.exe');
+
+        } else {
+            const runtimeItems = fs.readdirSync(runtimesDir);
+            const zuluItem = runtimeItems.find(item => 
+                (item.includes('zulu') || item.includes('jdk')) && 
+                item.includes(String(requiredVersion))
+            );
+
+            if(zuluItem){
+                finalJavaPath = path.join(runtimesDir, zuluItem, 'bin', 'javaw.exe');
+            }
+        }
+
+        // 6. GUARDAR Y MOSTRAR ALERTA (MODIFICADO)
+        if (finalJavaPath && fs.existsSync(finalJavaPath)) {
+            console.log("[XeonyJava] Configurado:", finalJavaPath);
+            
+            ConfigManager.setJavaExecutable(ConfigManager.getSelectedServer(), finalJavaPath);
+            ConfigManager.save();
+
+            // Mensaje en el launcher (por si acaso)
+            setLaunchDetails(`Aplicando Java ${requiredVersion}...`);
+
+            // --- AQUÍ ESTÁ TU VENTANA ---
+            // El código se detendrá aquí hasta que el usuario pulse Aceptar
+            alert(`Aplicando Java ${requiredVersion} reiniciando... Cuando reinicie... Dale solo a jugar!!!`);
+            
+            // Reiniciamos
+            location.reload(); 
+
+        } else {
+            showLaunchFailure("Error", `No se encontró Java ${requiredVersion} tras instalar.`);
+        }
+
+    } catch (err) {
+        loggerLaunchSuite.error("Error crítico:", err);
+        showLaunchFailure("Error Interno", "Falló la configuración automática.");
+    }
 }
 
 let proc, hasRPC = false
