@@ -1,6 +1,6 @@
 {
   "name": "mff-launcher",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "productName": "MFF Launcher",
   "description": "Launcher oficial para eventos de la MFF",
   "author": "CopoGamerYT",
@@ -69,7 +69,20 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "runAfterFinish": true,
-      "shortcutName": "MFF Launcher"
+      "shortcutName": "MFF Launcher",
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Game"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.games"
     },
     "publish": [
       {
